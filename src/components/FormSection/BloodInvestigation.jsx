@@ -248,7 +248,7 @@ export function BloodInvestigation({ investigations, setInvestigations }) {
                   </div>
                   <button
                     onClick={() => deleteTest(dateIndex, categoryIndex, testIndex)}
-                    className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-red-500 text-white text-sm px-2 py-1 rounded hover:bg-red-600"
+                    className="right-0 top-1/2 transform -translate-y-1/2 bg-red-500 text-white text-sm px-2 py-1 rounded hover:bg-red-600 mt-2 w-max"
                     title="Remove Test"
                   >
                     Remove Test
