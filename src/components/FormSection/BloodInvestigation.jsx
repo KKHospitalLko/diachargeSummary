@@ -18,7 +18,7 @@ const testCategories = {
     { name: "Serum Calcium", unit: "mg/dL", referenceRange: "8.5 – 10.5 mg/dL" },
   ],
   "Coagulation Profile": [
-    { name: "Prothrombin Time (PT)", unit: "sec", referenceRange: "11 – 13.5 sec" },
+    { name: "Prothrombin Time (PT)", unit: "secs", referenceRange: "11 – 13.5 secs" },
     { name: "INR", unit: "", referenceRange: "0.8 – 1.2" },
   ],
   "Liver Function Tests (LFT)": [
@@ -30,13 +30,13 @@ const testCategories = {
     { name: "Serum Alkaline Phosphatase", unit: "U/L", referenceRange: "40 – 129 U/L" },
   ],
   "Infectious Disease Markers": [
-    { name: "Widal Test", unit: "", referenceRange: "" },
-    { name: "Typhoid IgM (Card Test)", unit: "", referenceRange: "" },
-    { name: "Typhoid IgG (Card Test)", unit: "", referenceRange: "" },
+    { name: "Widal Test", unit: "-", referenceRange: "-" },
+    { name: "Typhoid IgM (Card Test)", unit: "-", referenceRange: "-" },
+    { name: "Typhoid IgG (Card Test)", unit: "-", referenceRange: "-" },
   ],
   "Other Investigations": [
-    { name: "Procalcitonin (PCT)", unit: "ng/mL", referenceRange: "" },
-    { name: "Urine Examination", unit: "", referenceRange: "" },
+    { name: "Procalcitonin (PCT)", unit: "ng/mL", referenceRange: "-" },
+    { name: "Urine Examination", unit: "-", referenceRange: "-" },
   ],
 };
 
@@ -48,7 +48,7 @@ const allUnits = [
   "mg/dL",
   "mmol/L",
   "sec",
-  "",
+  "-",
   "g/dL",
   "U/L",
   "ng/mL",
