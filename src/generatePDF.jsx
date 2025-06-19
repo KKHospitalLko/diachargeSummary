@@ -1116,7 +1116,7 @@ export function generatePDF(formData, isPreview = false, investigations) {
 
 
     // // Save the PDF
-    // doc.save('discharge-summary.pdf');
+    doc.save('discharge-summary.pdf');
 
     // Return Data URL for preview or save the PDF
     if (isPreview) {
