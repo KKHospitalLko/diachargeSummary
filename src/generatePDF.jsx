@@ -276,118 +276,129 @@ export function generatePDF(formData, isPreview = false, investigations) {
 
 
 
-if (investigations && investigations.length>0){
-    // Key Blood Investigations Heading
-    doc.setFont('times', 'bold'); // Explicitly set Helvetica
-    doc.setFontSize(14);
-    doc.setTextColor(0, 0, 0); // Black
-    const margin = 12;
-    const tableWidth = 180; // Sum of colWidths (70 + 30 + 30 + 50)
-    const pageHeight = 297; // Standard A4 height in mm
-    doc.text('Key Blood Investigations (Pathology):', margin, yPos);
-    const textWidthKeyBlood = doc.getTextWidth('Key Blood Investigations (Pathology):');
-    doc.setLineWidth(0.5);
-    doc.line(margin, yPos + 2, margin + textWidthKeyBlood, yPos + 2); // Underline
-    yPos += 15;
-
-    doc.setFontSize(12);
-    doc.setTextColor(0, 0, 0); // Black
-
-    investigations.forEach((investigation, index) => {
-        // Category Heading
-        doc.setFont('times', 'bold'); // Ensure consistent font
-        doc.setFontSize(12);
-        // Plain text for category to avoid special character issues
-        doc.text(investigation.category + ':', indent, yPos);
-        yPos += 8;
-
-        // Table Headers
-        const headers = ['Test Name', 'Value', 'Unit', 'Reference Range'];
-        const colWidths = [70, 30, 30, 50]; // Total = 180, matches tableWidth
-        let xPos = indent;
-
-        // Draw header text
+    if (investigations && investigations.length > 0) {
+        // Key Blood Investigations Heading
         doc.setFont('times', 'bold');
-        headers.forEach((header, i) => {
-            doc.text(header, xPos + 2, yPos);
-            xPos += colWidths[i];
-        });
-        yPos += 8;
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0); // Black
+        const margin = 12;
+        const tableWidth = 180; // Sum of colWidths (70 + 30 + 30 + 50)
+        const pageHeight = 297; // Standard A4 height in mm
+        doc.text('Key Blood Investigations (Pathology):', margin, yPos);
+        const textWidthKeyBlood = doc.getTextWidth('Key Blood Investigations (Pathology):');
+        doc.setLineWidth(0.5);
+        doc.line(margin, yPos + 2, margin + textWidthKeyBlood, yPos + 2); // Underline
+        yPos += 15;
 
-        // Tests under each category
-        investigation.tests.forEach((test, testIndex) => {
-            xPos = indent;
+        doc.setFontSize(12);
+        doc.setTextColor(0, 0, 0); // Black
 
-            // Test Name
-            doc.setFont('times', 'normal');
-            doc.text(test.name, xPos + 2, yPos);
-            xPos += colWidths[0];
-
-            // Test Value
-            xPos = renderTextWithSuperscript(doc, test.value || '', xPos + 2, yPos);
-            xPos = indent + colWidths[0] + colWidths[1]; // Reset xPos for next column
-
-            // Test Unit
-            xPos = renderTextWithSuperscript(doc, test.unit || '', xPos + 2, yPos);
-            xPos = indent + colWidths[0] + colWidths[1] + colWidths[2];
-
-            // Reference Range
-            if (test.referenceRange) {
-                xPos = renderTextWithSuperscript(doc, test.referenceRange, xPos + 2, yPos);
-            }
-
+        investigations.forEach((dateEntry, dateIndex) => {
+            // Date Heading
+            doc.setFont('times', 'bold');
+            doc.setFontSize(12);
+            const dateText = dateIndex === 0
+                ? `[${dateEntry.date}, On Admission]`
+                : `[${dateEntry.date}]`;
+            doc.text(dateText, margin, yPos);
             yPos += 8;
 
-            // Removed: Row border (doc.rect) to eliminate table borders
+            // Iterate over categories for this date
+            dateEntry.categories.forEach((investigation, catIndex) => {
+                // Category Heading
+                doc.setFont('times', 'bold');
+                doc.setFontSize(12);
+                doc.text(`${investigation.category}:`, margin + 5, yPos); // Indent category slightly
+                yPos += 8;
 
-            // Page break check
-            if (yPos > pageHeight - 20) {
-                doc.addPage();
-                yPos = 30; // Reset to top of new page
+                // Table Headers
+                const headers = ['Test Name', 'Value', 'Unit', 'Reference Range'];
+                const colWidths = [70, 30, 30, 50]; // Total = 180, matches tableWidth
+                let xPos = margin + 5; // Align with category indent
+
+                // Draw header text
+                doc.setFont('times', 'bold');
+                headers.forEach((header, i) => {
+                    doc.text(header, xPos + 2, yPos);
+                    xPos += colWidths[i];
+                });
+                yPos += 8;
+
+                // Tests under each category
+                investigation.tests.forEach((test, testIndex) => {
+                    xPos = margin + 5; // Align with category indent
+
+                    // Test Name
+                    doc.setFont('times', 'normal');
+                    doc.text(test.name, xPos + 2, yPos);
+                    xPos += colWidths[0];
+
+                    // Test Value
+                    xPos = renderTextWithSuperscript(doc, test.value || '', xPos + 2, yPos);
+                    xPos = margin + 5 + colWidths[0] + colWidths[1]; // Reset xPos for next column
+
+                    // Test Unit
+                    xPos = renderTextWithSuperscript(doc, test.unit || '', xPos + 2, yPos);
+                    xPos = margin + 5 + colWidths[0] + colWidths[1] + colWidths[2];
+
+                    // Reference Range
+                    if (test.referenceRange) {
+                        xPos = renderTextWithSuperscript(doc, test.referenceRange, xPos + 2, yPos);
+                    }
+
+                    yPos += 8;
+
+                    // Page break check
+                    if (yPos > pageHeight - 20) {
+                        doc.addPage();
+                        yPos = 30; // Reset to top of new page
+                    }
+                });
+
+                // Spacing after category
+                if (catIndex < dateEntry.categories.length - 1) {
+                    yPos += 5; // Space between categories within the same date
+                }
+            });
+
+            // Spacing after date
+            if (dateIndex < investigations.length - 1) {
+                yPos += 15; // Larger space between different dates
             }
         });
 
-        // Removed: Vertical lines for columns (doc.line) to eliminate table borders
+        // Function to handle superscript text (unchanged)
+        function renderTextWithSuperscript(doc, text, x, y) {
+            let i = 0;
+            let xPos = x;
+            doc.setFontSize(12); // Normal text size
 
-        // yPos += 2; // Spacing after category
-
-        // Removed: Horizontal line between categories to eliminate all borders
-        if (index < investigations.length - 1) {
-            yPos += 10; // Maintain spacing without drawing a line
-        }
-    });
-
-    // Function to handle superscript text (unchanged)
-    function renderTextWithSuperscript(doc, text, x, y) {
-        let i = 0;
-        let xPos = x;
-        doc.setFontSize(12); // Normal text size
-
-        while (i < text.length) {
-            if (text[i] === '^') {
-                i++;
-                let superText = '';
-                while (i < text.length && text[i] !== ' ') {
-                    superText += text[i];
+            while (i < text.length) {
+                if (text[i] === '^') {
                     i++;
+                    let superText = '';
+                    while (i < text.length && text[i] !== ' ') {
+                        superText += text[i];
+                        i++;
+                    }
+                    doc.setFontSize(8); // Superscript size
+                    doc.text(superText, xPos, y - 1.5);
+                    xPos += doc.getTextWidth(superText);
+                    doc.setFontSize(12); // Reset to normal
+                } else {
+                    let normalText = '';
+                    while (i < text.length && text[i] !== '^') {
+                        normalText += text[i];
+                        i++;
+                    }
+                    doc.text(normalText, xPos, y);
+                    xPos += doc.getTextWidth(normalText);
                 }
-                doc.setFontSize(8); // Superscript size
-                doc.text(superText, xPos, y - 1.5);
-                xPos += doc.getTextWidth(superText);
-                doc.setFontSize(12); // Reset to normal
-            } else {
-                let normalText = '';
-                while (i < text.length && text[i] !== '^') {
-                    normalText += text[i];
-                    i++;
-                }
-                doc.text(normalText, xPos, y);
-                xPos += doc.getTextWidth(normalText);
             }
+
+            return xPos;
         }
 
-        return xPos;
-    }
 
 
     yPos += 6;
