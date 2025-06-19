@@ -298,7 +298,7 @@ export function generatePDF(formData, isPreview = false, investigations) {
             doc.setFont('times', 'bold');
             doc.setFontSize(12);
             const dateText = dateIndex === 0
-                ? `[${dateEntry.date}, On Admission]`
+                ? `[${dateEntry.date}; On Admission]`
                 : `[${dateEntry.date}]`;
             doc.text(dateText, margin, yPos);
             yPos += 8;
