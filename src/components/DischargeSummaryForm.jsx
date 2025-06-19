@@ -331,7 +331,7 @@ const DischargeSummaryForm = () => {
             >
               <button
                 type="button"
-                onClick={() => generatePDF(formData, investigations)}
+                onClick={() => generatePDF(formData, false, investigations)}
                 style={{
                   padding: "12px 30px",
                   fontSize: "16px",
