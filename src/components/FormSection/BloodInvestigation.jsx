@@ -47,7 +47,7 @@ const allUnits = [
   "%",
   "mg/dL",
   "mmol/L",
-  "sec",
+  "secs",
   "-",
   "g/dL",
   "U/L",
