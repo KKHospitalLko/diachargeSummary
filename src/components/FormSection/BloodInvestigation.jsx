@@ -1,25 +1,34 @@
 import { useState } from "react";
 
 const testCategories = {
-  Haematology: [
+  "Haematology": [
     { name: "Haemoglobin (Hb)", unit: "gm%", referenceRange: "12.0 – 15.5 gm%" },
     { name: "Total Leukocyte Count (TLC)", unit: "/mm³", referenceRange: "4,000 – 11,000 /mm³" },
+    { name: "Differential Leucocyte Count (DLC)", unit: "", referenceRange: "" },
+    { name: "General Blood Picture (GBP)", unit: "", referenceRange: "" },
+    { name: "General Blood Picture for Malaria Parasite/Microfilaria", unit: "", referenceRange: "" },
+    { name: "Erythrocyte Sedimentation Rate (ESR)", unit: "", referenceRange: "" },
     { name: "Platelet Count", unit: "/mm³", referenceRange: "1.5 – 4.5 lakh /mm³" },
     { name: "Total RBC Count", unit: "× 10⁶/µL", referenceRange: "3.8 – 5.0 × 10⁶/µL" },
     { name: "Hematocrit (HCT)", unit: "%", referenceRange: "36 – 46 %" },
+    { name: "Blood Grouping", unit: "", referenceRange: "" }
   ],
   "Renal Function Tests (RFT)": [
     { name: "Blood Urea", unit: "mg/dL", referenceRange: "10 – 40 mg/dL" },
-    { name: "Serum Creatinine", unit: "mg/dL", referenceRange: "0.6 – 1.2 mg/dL" },
+    { name: "Serum Creatinine", unit: "mg/dL", referenceRange: "0.6 – 1.2 mg/dL" }
   ],
   "Electrolytes & Minerals": [
     { name: "Serum Sodium", unit: "mmol/L", referenceRange: "135 – 145 mmol/L" },
     { name: "Serum Potassium", unit: "mmol/L", referenceRange: "3.5 – 5.1 mmol/L" },
     { name: "Serum Calcium", unit: "mg/dL", referenceRange: "8.5 – 10.5 mg/dL" },
+    { name: "Serum Phosphoras", unit: "", referenceRange: "" },
+    { name: "Serum Magnesium", unit: "", referenceRange: "" }
   ],
   "Coagulation Profile": [
     { name: "Prothrombin Time (PT)", unit: "secs", referenceRange: "11 – 13.5 secs" },
     { name: "INR", unit: "", referenceRange: "0.8 – 1.2" },
+    { name: "Activated Partial Thromboplastin Time (APTT)", unit: "", referenceRange: "" },
+    { name: "BT/CT", unit: "", referenceRange: "" }
   ],
   "Liver Function Tests (LFT)": [
     { name: "Serum Protein", unit: "g/dL", referenceRange: "6.0 – 8.3 g/dL" },
@@ -27,18 +36,92 @@ const testCategories = {
     { name: "Serum Bilirubin (Total)", unit: "mg/dL", referenceRange: "0.2 – 1.2 mg/dL" },
     { name: "SGPT (ALT)", unit: "U/L", referenceRange: "5 – 40 U/L" },
     { name: "SGOT (AST)", unit: "U/L", referenceRange: "5 – 40 U/L" },
-    { name: "Serum Alkaline Phosphatase", unit: "U/L", referenceRange: "40 – 129 U/L" },
+    { name: "Bili (T)", unit: "", referenceRange: "" },
+    { name: "Bili TDI", unit: "", referenceRange: "" }
   ],
   "Infectious Disease Markers": [
     { name: "Widal Test", unit: "-", referenceRange: "-" },
     { name: "Typhoid IgM (Card Test)", unit: "-", referenceRange: "-" },
     { name: "Typhoid IgG (Card Test)", unit: "-", referenceRange: "-" },
+    { name: "HBSAG", unit: "", referenceRange: "" },
+    { name: "Hepatitis C Virus Antibody", unit: "", referenceRange: "" },
+    { name: "HIV Antibody Test", unit: "", referenceRange: "" },
+    { name: "Dengue NS1/IgM/IgG Test", unit: "", referenceRange: "" },
+    { name: "C-Reactive Protein (CRP)", unit: "", referenceRange: "" },
+    { name: "QF TB Gold", unit: "", referenceRange: "" }
+  ],
+  "Diabetes": [
+    { name: "HBA1C", unit: "", referenceRange: "" }
+  ],
+  "Thyroid Profile": [
+    { name: "Thyroid Stimulating Hormone (TSH)", unit: "", referenceRange: "" },
+    { name: "FT3, FT4, TSH", unit: "", referenceRange: "" },
+    { name: "FT4", unit: "", referenceRange: "" },
+    { name: "T3T4TSH", unit: "", referenceRange: "" }
   ],
   "Other Investigations": [
     { name: "Procalcitonin (PCT)", unit: "ng/mL", referenceRange: "-" },
     { name: "Urine Examination", unit: "-", referenceRange: "-" },
-  ],
+    { name: "Reti Count", unit: "", referenceRange: "" },
+    { name: "B. Sugar Random", unit: "", referenceRange: "" },
+    { name: "Blood Sugar Fasting", unit: "", referenceRange: "" },
+    { name: "Blood Sugar PP", unit: "", referenceRange: "" },
+    { name: "AeP", unit: "", referenceRange: "" },
+    { name: "Amylase", unit: "", referenceRange: "" },
+    { name: "Lipase", unit: "", referenceRange: "" },
+    { name: "Trop-T", unit: "", referenceRange: "" },
+    { name: "RA Factor", unit: "", referenceRange: "" },
+    { name: "ASO Titre", unit: "", referenceRange: "" },
+    { name: "C/S", unit: "", referenceRange: "" },
+    { name: "AFB", unit: "", referenceRange: "" },
+    { name: "Gram's", unit: "", referenceRange: "" },
+    { name: "Semen Exam", unit: "", referenceRange: "" },
+    { name: "Lipid Profile", unit: "", referenceRange: "" },
+    { name: "Cholestrol", unit: "", referenceRange: "" },
+    { name: "Triglyceride", unit: "", referenceRange: "" },
+    { name: "CBC", unit: "", referenceRange: "" },
+    { name: "Biopsy (Small)", unit: "", referenceRange: "" },
+    { name: "BIOPSY Large", unit: "", referenceRange: "" },
+    { name: "CK-NAC", unit: "", referenceRange: "" },
+    { name: "CK-MB", unit: "", referenceRange: "" },
+    { name: "ABG", unit: "", referenceRange: "" },
+    { name: "CSF R/M", unit: "", referenceRange: "" },
+    { name: "Pleural Fluid R/M", unit: "", referenceRange: "" },
+    { name: "Ascitic Fluid R/M", unit: "", referenceRange: "" },
+    { name: "PPD", unit: "", referenceRange: "" },
+    { name: "SPSA Total", unit: "", referenceRange: "" },
+    { name: "AMH", unit: "", referenceRange: "" },
+    { name: "LH", unit: "", referenceRange: "" },
+    { name: "FSH", unit: "", referenceRange: "" },
+    { name: "Prolactin", unit: "", referenceRange: "" },
+    { name: "B HCG", unit: "", referenceRange: "" },
+    { name: "Pragnancy Test", unit: "", referenceRange: "" },
+    { name: "Testosterone Total", unit: "", referenceRange: "" },
+    { name: "Triple Test", unit: "", referenceRange: "" },
+    { name: "Torch Profile", unit: "", referenceRange: "" },
+    { name: "Double Marker", unit: "", referenceRange: "" },
+    { name: "Quadraple Marker", unit: "", referenceRange: "" },
+    { name: "TB PCR", unit: "", referenceRange: "" },
+    { name: "ADA", unit: "", referenceRange: "" },
+    { name: "CA-125", unit: "", referenceRange: "" },
+    { name: "Trop I", unit: "", referenceRange: "" },
+    { name: "Psa Free", unit: "", referenceRange: "" },
+    { name: "Testosterone Free", unit: "", referenceRange: "" },
+    { name: "Ammonia", unit: "", referenceRange: "" },
+    { name: "Bone Marrow", unit: "", referenceRange: "" },
+    { name: "PAP Smear", unit: "", referenceRange: "" },
+    { name: "CB-NAAT", unit: "", referenceRange: "" },
+    { name: "LDH", unit: "", referenceRange: "" },
+    { name: "Vit B12", unit: "", referenceRange: "" },
+    { name: "Vit-D", unit: "", referenceRange: "" },
+    { name: "Iron Profile", unit: "", referenceRange: "" },
+    { name: "Blood C/S", unit: "", referenceRange: "" },
+    { name: "NT Pro BNP", unit: "", referenceRange: "" },
+    { name: "D. Dimer", unit: "", referenceRange: "" },
+    { name: "Folic Acid", unit: "", referenceRange: "" }
+  ]
 };
+
 
 const allUnits = [
   "gm%",
